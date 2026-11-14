@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --cream: #fff7e6;
+  --ink: #2e0a0c;
+
+  --maroon-950: #1a0506;
+  --maroon-900: #2e0a0c;
+  --maroon-800: #5c0f14;
+  --maroon-700: #7d1419;
+  --crimson-600: #a8171f; /* logo red, main accent */
+  --gold-400: #f4b942; /* logo gold */
+  --saffron: #e8a020;
+  --cream-200: #fff1d6;
+}
+
+@theme inline {
+  --color-maroon-950: var(--maroon-950);
+  --color-maroon-900: var(--maroon-900);
+  --color-maroon-800: var(--maroon-800);
+  --color-maroon-700: var(--maroon-700);
+  --color-crimson-600: var(--crimson-600);
+  --color-gold-400: var(--gold-400);
+  --color-saffron: var(--saffron);
+  --color-cream-200: var(--cream-200);
+
+  /* old café names mapped to the new palette so leftover classes still work */
+  --color-espresso-950: var(--maroon-950);
+  --color-espresso-900: var(--maroon-900);
+  --color-espresso-800: var(--maroon-800);
+  --color-espresso-700: var(--maroon-700);
+  --color-coffee-600: var(--crimson-600);
+  --color-caramel-400: var(--gold-400);
+  --color-copper: var(--saffron);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--cream);
+  background-image: radial-gradient(
+    rgba(168, 23, 31, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  color: var(--ink);
+  /* font-family: var(--font-montserrat), sans-serif; */
+  font-family: var(--font-montserrat), var(--font-tamil), sans-serif;
+}
+
+.field {
+  flex: 1;
+  min-width: 0;
+  border-radius: 9999px;
+  background: var(--cream);
+  padding: 0.875rem 1.25rem;
+  font-size: 0.875rem;
+  color: var(--ink);
+  outline: none;
+}
+.field:focus {
+  box-shadow: 0 0 0 2px var(--gold-400);
+}
