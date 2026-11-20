@@ -86,59 +86,67 @@ const timeline: { year: L; title: L; text: L }[] = [
 
 type Person = { initials: string; name: L; image: StaticImageData };
 
-const generations: {
+type Generation = {
   badge: L;
+  name: L;
   role: L;
-  people: Person[];
-  line: L;
-}[] = [
+  heading: L;
+  body: L;
+  quote: L;
+  image: StaticImageData;
+};
+
+const generations: Generation[] = [
   {
     badge: { en: "1962", ta: "1962" },
+    name: { en: "Mr. S. Ramaraj", ta: "திரு. எஸ். ராமராஜ்" },
     role: { en: "The Founder", ta: "நிறுவனர்" },
-    people: [
-      {
-        initials: "SR",
-        name: { en: "Mr. S. Ramaraj", ta: "திரு. எஸ். ராமராஜ்" },
-        image: assets.images.grandpa,
-      },
-    ],
-    line: {
+    heading: { en: "Where it all began.", ta: "எல்லாம் தொடங்கிய இடம்." },
+    body: {
+      en: "In 1962, Mr. S. Ramaraj opened Sridevi Vilas in Periyakulam with one simple mission: authentic sweets made with heart.",
+      ta: "1962-ல் திரு. எஸ். ராமராஜ் பெரியகுளத்தில் ஸ்ரீ தேவி விலாஸைத் தொடங்கினார். நோக்கம் ஒன்றே: மனதார செய்த உண்மையான இனிப்புகள்.",
+    },
+    quote: {
       en: "Laying the foundation of authentic taste.",
       ta: "உண்மையான சுவையின் அடித்தளத்தை அமைத்தவர்.",
     },
+    image: assets.images.grandpa,
   },
   {
     badge: { en: "2nd Generation", ta: "2ஆம் தலைமுறை" },
+    name: { en: "Appa", ta: "அப்பா" },
     role: {
       en: "Building trust · 1990s",
       ta: "நம்பிக்கையின் வளர்ச்சி · 1990கள்",
     },
-    people: [
-      {
-        initials: "AP",
-        name: { en: "Appa", ta: "அப்பா" },
-        image: assets.images.appa,
-      },
-    ],
-    line: {
+    heading: { en: "Trust, built daily.", ta: "தினமும் வளரும் நம்பிக்கை." },
+    body: {
+      en: "Appa carried the commitment to purity and flavor forward from the 1990s, building decades of trust and excellence.",
+      ta: "தூய்மை மற்றும் சுவை மீதான அர்ப்பணிப்பை 1990களில் இருந்து அப்பா தொடர்ந்து, பல தசாப்த நம்பிக்கையையும் சிறப்பையும் உருவாக்கினார்.",
+    },
+    quote: {
       en: "Building decades of trust & excellence.",
       ta: "பல தசாப்த நம்பிக்கையையும் சிறப்பையும் கட்டியெழுப்பியவர்.",
     },
+    image: assets.images.appa,
   },
   {
     badge: { en: "3rd Generation", ta: "3ஆம் தலைமுறை" },
+    name: { en: "Me", ta: "நான்" },
     role: { en: "Present day", ta: "இன்று" },
-    people: [
-      {
-        initials: "ME",
-        name: { en: "Me", ta: "நான்" },
-        image: assets.images.me,
-      },
-    ],
-    line: {
+    heading: {
+      en: "Carrying it forward.",
+      ta: "தொடர்ந்து எடுத்துச் செல்கிறேன்.",
+    },
+    body: {
+      en: "I run the same original branch from 1962, blending timeless recipes with modern excellence. Open every day until 10:30 PM.",
+      ta: "1962-ல் தொடங்கிய அதே முதல் கிளையை நடத்தி, காலத்தால் அழியாத சுவையுடன் நவீன சிறப்பையும் கலக்கிறேன். தினமும் இரவு 10:30 வரை திறந்திருக்கும்.",
+    },
+    quote: {
       en: "Carrying the legacy into the future.",
       ta: "பாரம்பரியத்தை எதிர்காலத்துக்கு எடுத்துச் செல்கிறேன்.",
     },
+    image: assets.images.me,
   },
 ];
 
@@ -642,7 +650,8 @@ export default function AboutView() {
       <Timeline />
 
       {/* GENERATIONS */}
-      <Box sx={{ bgcolor: "var(--gold-400)", py: { xs: 7, md: 10 } }}>
+
+      <Box sx={{ bgcolor: "var(--cream-200)", py: { xs: 7, md: 10 } }}>
         <Container>
           <Typography
             sx={{
@@ -650,100 +659,181 @@ export default function AboutView() {
               fontWeight: 900,
               fontSize: { xs: 28, md: 44 },
               color: "var(--maroon-950)",
-              mb: 5,
+              mb: { xs: 5, md: 8 },
+              textAlign: { md: "center" },
             }}
           >
             {t({ en: "Three generations", ta: "மூன்று தலைமுறைகள்" })}
           </Typography>
 
-          <Box
-            sx={{
-              display: "grid",
-              gap: 3,
-              gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
-            }}
-          >
+          <Box sx={{ display: "grid", gap: { xs: 8, md: 12 } }}>
             {generations.map((g, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                whileHover={{ y: -8 }}
-                style={{ display: "flex" }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6 }}
               >
                 <Box
                   sx={{
-                    flex: 1,
                     display: "flex",
-                    flexDirection: "column",
-                    p: 3.5,
-                    borderRadius: "28px",
-                    bgcolor: "var(--maroon-950)",
-                    color: "var(--cream-200)",
-                    boxShadow: "0 10px 30px rgba(43,10,12,0.3)",
+                    flexDirection: {
+                      xs: "column",
+                      md: i % 2 === 0 ? "row" : "row-reverse",
+                    },
+                    alignItems: "center",
+                    gap: { xs: 4, md: 10 },
                   }}
                 >
+                  {/* PHOTO */}
                   <Box
-                    component="span"
                     sx={{
-                      alignSelf: "flex-start",
-                      px: 1.75,
-                      py: 0.5,
-                      borderRadius: 999,
-                      bgcolor: "var(--gold-400)",
-                      color: "var(--maroon-950)",
-                      fontSize: 12,
-                      fontWeight: 900,
-                      letterSpacing: "0.14em",
-                      textTransform: "uppercase",
+                      position: "relative",
+                      flex: "0 0 auto",
+                      width: { xs: "100%", md: 380 },
+                      maxWidth: 380,
                     }}
                   >
-                    {t(g.badge)}
-                  </Box>
-
-                  <Box sx={{ display: "flex", mt: 3, mb: 2 }}>
-                    {g.people.map((p, k) => (
-                      <PersonAvatar
-                        key={p.initials + k}
-                        src={p.image}
-                        initials={p.initials}
-                        alt={p.name.en}
-                        overlap={k > 0}
-                      />
-                    ))}
-                  </Box>
-
-                  {g.people.map((p) => (
-                    <Typography
-                      key={p.initials}
+                    {/* offset backing */}
+                    <Box
                       sx={{
-                        fontFamily: display,
-                        fontWeight: 800,
-                        fontSize: 22,
+                        position: "absolute",
+                        inset: 0,
+                        transform: {
+                          xs: "translate(12px, 12px)",
+                          md:
+                            i % 2 === 0
+                              ? "translate(18px, 18px)"
+                              : "translate(-18px, 18px)",
+                        },
+                        borderRadius: "999px 999px 28px 28px",
+                        bgcolor: "var(--gold-400)",
+                      }}
+                    />
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: "100%",
+                        aspectRatio: "4 / 5",
+                        borderRadius: "999px 999px 28px 28px",
+                        overflow: "hidden",
+                        bgcolor: "var(--maroon-950)",
                       }}
                     >
-                      {t(p.name)}
+                      <Image
+                        src={g.image}
+                        alt={g.name.en}
+                        fill
+                        sizes="(max-width: 900px) 100vw, 380px"
+                        style={{ objectFit: "cover" }}
+                      />
+                    </Box>
+
+                    {/* name card */}
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        left: 20,
+                        bottom: -20,
+                        px: 3,
+                        py: 1.5,
+                        borderRadius: "999px",
+                        bgcolor: "#fff",
+                        boxShadow: "0 10px 30px rgba(43,10,12,0.18)",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontFamily: display,
+                          fontWeight: 800,
+                          fontSize: 20,
+                          color: "var(--maroon-950)",
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {t(g.name)}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: 13,
+                          color: "var(--maroon-950)",
+                          opacity: 0.7,
+                        }}
+                      >
+                        {t(g.role)}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {/* TEXT */}
+                  <Box sx={{ flex: 1, mt: { xs: 2, md: 0 } }}>
+                    <Box
+                      component="span"
+                      sx={{
+                        display: "inline-block",
+                        px: 1.75,
+                        py: 0.5,
+                        borderRadius: 999,
+                        bgcolor: "var(--maroon-950)",
+                        color: "var(--gold-400)",
+                        fontSize: 12,
+                        fontWeight: 900,
+                        letterSpacing: "0.14em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {t(g.badge)}
+                    </Box>
+
+                    <Typography
+                      sx={{
+                        mt: 2,
+                        fontFamily: display,
+                        fontWeight: 900,
+                        fontSize: { xs: 30, md: 48 },
+                        lineHeight: 1.1,
+                        color: "var(--maroon-950)",
+                      }}
+                    >
+                      {t(g.heading)}
                     </Typography>
-                  ))}
 
-                  <Typography
-                    sx={{
-                      mt: 0.75,
-                      color: "var(--gold-400)",
-                      fontWeight: 800,
-                      fontSize: 12,
-                      letterSpacing: "0.12em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {t(g.role)}
-                  </Typography>
+                    <Typography
+                      sx={{
+                        mt: 2.5,
+                        fontSize: { xs: 16, md: 18 },
+                        lineHeight: 1.8,
+                        opacity: 0.85,
+                        maxWidth: 520,
+                      }}
+                    >
+                      {t(g.body)}
+                    </Typography>
 
-                  <Typography sx={{ mt: 2, opacity: 0.85, lineHeight: 1.6 }}>
-                    {t(g.line)}
-                  </Typography>
+                    <Box
+                      sx={{
+                        mt: 3,
+                        pl: 3,
+                        py: 0.5,
+                        maxWidth: 520,
+                        borderLeft: "6px solid var(--gold-400)",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontFamily: display,
+                          fontStyle: "italic",
+                          fontWeight: 700,
+                          fontSize: { xs: 18, md: 22 },
+                          lineHeight: 1.4,
+                          color: "var(--maroon-950)",
+                        }}
+                      >
+                        “{t(g.quote)}”
+                      </Typography>
+                    </Box>
+                  </Box>
                 </Box>
               </motion.div>
             ))}

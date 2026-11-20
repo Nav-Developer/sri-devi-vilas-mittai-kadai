@@ -11,8 +11,8 @@ export const store = {
 
   address: {
     line: {
-      en: "No. 41, Road No. 18, Moondranthal (near Gandhi Statue), Bazaar Street",
-      ta: "எண் 41, சாலை எண் 18, மூன்றாந்தல் (காந்தி சிலை அருகில்), பஜார் தெரு",
+      en: "Sri Devi Vilas Mittai Kadai,No. 41, Road No. 18, Moondranthal (near Gandhi Statue), Bazaar Street",
+      ta: "ஸ்ரீ தேவி விலாஸ் மிட்டாய் கடை,எண் 41, சாலை எண் 18, மூன்றாந்தல் (காந்தி சிலை அருகில்), பஜார் தெரு",
     } as L,
     city: { en: "Periyakulam", ta: "பெரியகுளம்" } as L,
     // Secondcity: { en: "Andipatti", ta: "ஆண்டிப்பட்டி" } as L,
