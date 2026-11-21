@@ -7,6 +7,7 @@ export const ui = {
     menu: { en: "Menu", ta: "பட்டியல்" },
     about: { en: "About", ta: "எங்களைப் பற்றி" },
     contact: { en: "Contact", ta: "தொடர்புக்கு" },
+    galley: { en: "Gallery", ta: "காட்சியகம் " },
     drawerFoot: {
       en: "PERIYAKULAM · SINCE 1962",
       ta: "பெரியகுளம் · 1962 முதல்",
@@ -27,6 +28,12 @@ export const ui = {
     find: { en: "Find us", ta: "கடை இருப்பிடம்" },
   },
   spec: {
+    featured: {
+      kicker: { en: "Rare finds", ta: "அரிய சிறப்புகள்" },
+      h2a: { en: "Only here,", ta: "இங்கு மட்டும்," },
+      h2b: { en: "made the old way.", ta: "பழைய முறையில்." },
+      badge: { en: "Rare", ta: "அரிது" },
+    },
     kicker: { en: "What people come for", ta: "மக்கள் தேடி வருவது" },
     h2a: { en: "Sweets, savouries &", ta: "இனிப்பு, காரம் &" },
     h2b: { en: "cakes.", ta: "கேக்." },

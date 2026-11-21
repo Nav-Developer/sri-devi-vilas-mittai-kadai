@@ -22,7 +22,7 @@ export const chapters: Chapter[] = [
       en: "By seven the trays are out and the ghee is warm. First batch of sweets, first filter coffee, first familiar faces at Bazaar Street.",
       ta: "ஏழு மணிக்கே தட்டுகள் தயார், நெய் மணக்கிறது. முதல் இனிப்பு, முதல் காபி, பஜார் தெருவின் பழகிய முகங்கள்.",
     },
-    time: "7",
+    time: "6",
     period: "AM",
     bg: "#fbe3a8",
     fg: "#5c0f14",
@@ -78,12 +78,12 @@ export const chapters: Chapter[] = [
         label: { en: "Since", ta: "தொடக்கம்" },
       },
       {
-        value: 8,
+        value: 1,
         suffix: { en: "", ta: "" },
         label: { en: "Branches", ta: "கிளைகள்" },
       },
       {
-        value: 15,
+        value: 16,
         suffix: { en: "½ hrs", ta: "½ மணி" },
         label: { en: "Open daily", ta: "தினமும் திறப்பு" },
       },

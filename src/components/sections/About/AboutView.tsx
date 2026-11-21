@@ -20,8 +20,8 @@ type L = { en: string; ta: string };
 
 const story: L[] = [
   {
-    en: "Founded in 1962 by Mr. S. Ramaraj in Periyakulam, Sridevi Vilas Sweets & Bakery began with a simple mission: serving authentic, high-quality sweets and baked treats made with heart.",
-    ta: "1962-ல் திரு. எஸ். ராமராஜ் அவர்களால் பெரியகுளத்தில் தொடங்கப்பட்ட ஸ்ரீ தேவி விலாஸ் ஸ்வீட்ஸ் & பேக்கரி, மனதார தயாரிக்கப்பட்ட தரமான, உண்மையான இனிப்புகளையும் பேக்கரி பண்டங்களையும் வழங்கும் எளிய நோக்கத்துடன் தொடங்கியது.",
+    en: "Founded in 1962 by Mr. S. Ramaraj in Periyakulam, Sridevi Vilas Mittai Kadai began with a simple mission: serving authentic, high-quality sweets and baked treats made with heart.",
+    ta: "1962-ல் திரு. எஸ். ராமராஜ் அவர்களால் பெரியகுளத்தில் தொடங்கப்பட்ட ஸ்ரீ தேவி விலாஸ் மிட்டாய் கடை மனதார தயாரிக்கப்பட்ட தரமான, உண்மையான இனிப்புகளையும் பேக்கரி பண்டங்களையும் வழங்கும் எளிய நோக்கத்துடன் தொடங்கியது.",
   },
   {
     en: "That commitment to purity and flavor was carried forward by Appa, who built decades of trust and excellence from the 1990s. Today, I carry the legacy into the third generation, running the same original branch from 1962 and blending timeless recipes with modern excellence.",

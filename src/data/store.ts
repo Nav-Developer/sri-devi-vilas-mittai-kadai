@@ -1,8 +1,8 @@
 import { L } from "@/il8n/ui";
 export const towns = ["Periyakulam", "Theni", "Andipatti"] as const;
 export const store = {
-  fullName: "Sri Devi Vilas Mittai Kadai MITTAI KADAI",
-  tamilName: "ஸ்ரீ தேவி விலாஸ்",
+  fullName: "Sri Devi Vilas Mittai Kadai",
+  tamilName: "ஸ்ரீ தேவி விலாஸ் மிட்டாய் கடை",
   tagline: {
     en: "Traditional taste. Finest quality.",
     ta: "பாரம்பரியமிக்க.. சிறந்த தரத்துடன்...",
@@ -27,9 +27,9 @@ export const store = {
 
   // openMin / closeMin = minutes from midnight, used for the "Open now" badge
   hours: {
-    open: { en: "7:00 AM", ta: "காலை 7:00" } as L,
+    open: { en: "6:00 AM", ta: "காலை 6:00" } as L,
     close: { en: "10:30 PM", ta: "இரவு 10:30" } as L,
-    openMin: 7 * 60,
+    openMin: 6 * 60,
     closeMin: 22 * 60 + 30,
   },
 
