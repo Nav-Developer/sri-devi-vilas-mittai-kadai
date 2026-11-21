@@ -15,7 +15,7 @@ export type MenuItem = {
   descEn?: string;
   descTa?: string;
   category?: string;
-  price: number;
+  price?: number;
   unit?: string;
   available?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,6 +31,21 @@ const CATEGORY_LABEL: Record<string, { en: string; ta: string }> = {
 
 const nameFont = "var(--font-bodoni), var(--font-tamil), serif";
 const LOGO_SRC = assets.images.logo;
+
+const WEIGHTS = [50, 250, 500, 1000];
+
+function parseUnit(unit?: string): number | null {
+  if (!unit) return null;
+  const m = unit
+    .trim()
+    .toLowerCase()
+    .match(/^(\d+(?:\.\d+)?)\s*(kg|gm|g)$/);
+  if (!m) return null;
+  const n = parseFloat(m[1]);
+  return m[2] === "kg" ? n * 1000 : n;
+}
+
+const weightLabel = (g: number) => (g >= 1000 ? `${g / 1000} kg` : `${g} g`);
 
 /** Logo in the middle of a cream tile. Pulses while an image is loading. */
 function LogoLoader({ pulse }: { pulse: boolean }) {
@@ -129,9 +144,110 @@ function MenuImage({
   );
 }
 
+/** Price + weight chips. Price scales from the Studio price and unit. */
+function PriceBlock({ price, unit }: { price?: number; unit?: string }) {
+  const baseG = parseUnit(unit);
+  const hasPrice = price != null;
+  const weightMode = baseG !== null && hasPrice;
+
+  const [grams, setGrams] = useState<number>(baseG ?? 250);
+
+  const options = useMemo(
+    () =>
+      baseG
+        ? Array.from(new Set([...WEIGHTS, baseG])).sort((a, b) => a - b)
+        : WEIGHTS,
+    [baseG],
+  );
+
+  const shown =
+    weightMode && baseG && price != null
+      ? Math.round((price / baseG) * grams)
+      : price;
+
+  return (
+    <>
+      {hasPrice && (
+        <Typography sx={{ fontWeight: 800, mt: 0.5, fontSize: 17 }}>
+          ₹{shown}
+          {weightMode && (
+            <Box
+              component="span"
+              sx={{ fontWeight: 600, fontSize: 13, opacity: 0.65, ml: 0.75 }}
+            >
+              / {weightLabel(grams)}
+            </Box>
+          )}
+        </Typography>
+      )}
+
+      {unit && (
+        <>
+          <Box
+            sx={{ height: "1px", bgcolor: "rgba(43,10,12,0.18)", my: 1.5 }}
+          />
+
+          {weightMode ? (
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75 }}>
+              {options.map((g) => {
+                const on = g === grams;
+                return (
+                  <Box
+                    key={g}
+                    component="button"
+                    type="button"
+                    onClick={() => setGrams(g)}
+                    sx={{
+                      cursor: "pointer",
+                      px: 1.5,
+                      py: 0.5,
+                      borderRadius: 999,
+                      border: "2px solid var(--maroon-950)",
+                      bgcolor: on ? "var(--maroon-950)" : "transparent",
+                      color: on ? "var(--cream-200)" : "var(--maroon-950)",
+                      fontWeight: 800,
+                      fontSize: 12,
+                      textTransform: "uppercase",
+                      transition: "all .15s ease",
+                      "&:hover": {
+                        bgcolor: "var(--maroon-950)",
+                        color: "var(--cream-200)",
+                      },
+                    }}
+                  >
+                    {weightLabel(g)}
+                  </Box>
+                );
+              })}
+            </Box>
+          ) : (
+            <Box
+              component="span"
+              sx={{
+                display: "inline-block",
+                px: 2,
+                py: 0.75,
+                borderRadius: 999,
+                bgcolor: "var(--maroon-950)",
+                color: "var(--cream-200)",
+                fontWeight: 800,
+                fontSize: 13,
+                textTransform: "uppercase",
+              }}
+            >
+              {unit}
+            </Box>
+          )}
+        </>
+      )}
+    </>
+  );
+}
+
 export default function MenuGrid({ items }: { items: MenuItem[] }) {
   const { t } = useLang();
   const [active, setActive] = useState<string>("all");
+  const [query, setQuery] = useState("");
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -139,8 +255,16 @@ export default function MenuGrid({ items }: { items: MenuItem[] }) {
     return Array.from(set);
   }, [items]);
 
-  const visible =
-    active === "all" ? items : items.filter((i) => i.category === active);
+  const q = query.trim().toLowerCase();
+
+  const visible = items.filter((i) => {
+    if (active !== "all" && i.category !== active) return false;
+    if (!q) return true;
+    return (
+      i.nameEn.toLowerCase().includes(q) ||
+      (i.nameTa ?? "").toLowerCase().includes(q)
+    );
+  });
 
   const chip = (key: string, label: { en: string; ta: string }) => (
     <Box
@@ -174,6 +298,63 @@ export default function MenuGrid({ items }: { items: MenuItem[] }) {
         {t({ en: "Menu", ta: "மெனு" })}
       </Typography>
 
+      {/* Search */}
+      <Box sx={{ position: "relative", maxWidth: 480, mb: 3 }}>
+        <Box
+          component="input"
+          type="text"
+          value={query}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setQuery(e.target.value)
+          }
+          placeholder={t({
+            en: "Search sweets, savouries, cakes...",
+            ta: "இனிப்பு, காரம், கேக் தேடுங்கள்...",
+          })}
+          aria-label={t({ en: "Search menu", ta: "மெனுவில் தேடு" })}
+          sx={{
+            width: "100%",
+            px: 2.5,
+            py: 1.4,
+            pr: 6,
+            borderRadius: 999,
+            border: "2px solid var(--gold-400)",
+            bgcolor: "var(--cream-200)",
+            color: "var(--maroon-950)",
+            fontSize: 16,
+            fontWeight: 600,
+            outline: "none",
+            "&::placeholder": { color: "rgba(43,10,12,0.5)" },
+            "&:focus": { borderColor: "var(--maroon-950)" },
+          }}
+        />
+        {query && (
+          <Box
+            component="button"
+            type="button"
+            onClick={() => setQuery("")}
+            aria-label={t({ en: "Clear search", ta: "அழி" })}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              border: "none",
+              bgcolor: "var(--maroon-950)",
+              color: "var(--cream-200)",
+              cursor: "pointer",
+              fontWeight: 900,
+              fontSize: 14,
+            }}
+          >
+            ✕
+          </Box>
+        )}
+      </Box>
+
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1.5, mb: 5 }}>
         {chip("all", { en: "All", ta: "அனைத்தும்" })}
         {categories.map((c) => chip(c, CATEGORY_LABEL[c] ?? { en: c, ta: c }))}
@@ -181,7 +362,9 @@ export default function MenuGrid({ items }: { items: MenuItem[] }) {
 
       {visible.length === 0 && (
         <Typography sx={{ opacity: 0.7 }}>
-          {t({ en: "No items yet.", ta: "இன்னும் பொருட்கள் இல்லை." })}
+          {q
+            ? t({ en: "No matching items.", ta: "பொருத்தமான பொருட்கள் இல்லை." })
+            : t({ en: "No items yet.", ta: "இன்னும் பொருட்கள் இல்லை." })}
         </Typography>
       )}
 
@@ -209,6 +392,7 @@ export default function MenuGrid({ items }: { items: MenuItem[] }) {
           return (
             <motion.div
               key={item._id}
+              style={{ height: "100%" }}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -217,23 +401,33 @@ export default function MenuGrid({ items }: { items: MenuItem[] }) {
               {/* Wrapper stays still and owns the hover, so no flicker */}
               <Box
                 sx={{
+                  height: "100%",
                   "&:hover .menu-card": { transform: "translateY(-6px)" },
                   "&:hover .menu-img": { transform: "scale(1.07)" },
                 }}
               >
+                {/* ONE box: photo on top, details inside underneath */}
                 <Box
                   className="menu-card"
-                  sx={{ transition: "transform .3s ease" }}
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    overflow: "hidden",
+                    borderRadius: "28px",
+                    bgcolor: "var(--cream-200)",
+                    border: "1px solid rgba(43,10,12,0.12)",
+                    boxShadow: "0 10px 30px rgba(43,10,12,0.12)",
+                    transition: "transform .3s ease",
+                  }}
                 >
                   {/* Photo */}
                   <Box
                     sx={{
                       position: "relative",
                       overflow: "hidden",
-                      borderRadius: "28px",
                       aspectRatio: "1 / 1",
-                      bgcolor: "var(--cream-200)",
-                      boxShadow: "0 10px 30px rgba(43,10,12,0.12)",
+                      flexShrink: 0,
                     }}
                   >
                     {item.image ? (
@@ -352,8 +546,8 @@ export default function MenuGrid({ items }: { items: MenuItem[] }) {
                     )}
                   </Box>
 
-                  {/* Details */}
-                  <Box sx={{ px: 0.5, pt: 2 }}>
+                  {/* Details (inside the same box) */}
+                  <Box sx={{ px: 2.5, pt: 2, pb: 2.5, flex: 1 }}>
                     <Typography
                       sx={{
                         fontFamily: nameFont,
@@ -364,37 +558,8 @@ export default function MenuGrid({ items }: { items: MenuItem[] }) {
                     >
                       {name}
                     </Typography>
-                    <Typography sx={{ fontWeight: 800, mt: 0.5, fontSize: 17 }}>
-                      ₹{item.price}
-                    </Typography>
 
-                    {item.unit && (
-                      <>
-                        <Box
-                          sx={{
-                            height: "1px",
-                            bgcolor: "rgba(43,10,12,0.18)",
-                            my: 1.5,
-                          }}
-                        />
-                        <Box
-                          component="span"
-                          sx={{
-                            display: "inline-block",
-                            px: 2,
-                            py: 0.75,
-                            borderRadius: 999,
-                            bgcolor: "var(--maroon-950)",
-                            color: "var(--cream-200)",
-                            fontWeight: 800,
-                            fontSize: 13,
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {item.unit}
-                        </Box>
-                      </>
-                    )}
+                    <PriceBlock price={item.price} unit={item.unit} />
                   </Box>
                 </Box>
               </Box>

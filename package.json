@@ -29,12 +29,14 @@
     "styled-components": "^6.6.0"
   },
   "devDependencies": {
+    "@sanity/client": "^8.17.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.2",
+    "papaparse": "^5.7.1",
     "postcss": "^8.5.30",
     "tailwindcss": "^4",
     "typescript": "^5"
