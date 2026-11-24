@@ -9,7 +9,12 @@ const QUERY = `*[_type == "offer" && active != false]
 export default async function OfferBanner() {
   let offer: Offer | null = null;
   try {
-    offer = await client.fetch<Offer | null>(QUERY, {}, { cache: "no-store" });
+    // offer = await client.fetch<Offer | null>(QUERY, {}, { cache: "no-store" });
+    offer = await client.fetch<Offer | null>(
+      QUERY,
+      {},
+      { next: { revalidate: 60 } },
+    );
   } catch (e) {
     console.error("Could not load offer from Sanity", e);
   }
