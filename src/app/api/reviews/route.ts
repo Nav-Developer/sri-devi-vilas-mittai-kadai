@@ -20,7 +20,10 @@ export async function GET() {
   });
 
   if (!res.ok) {
-    return NextResponse.json({ error: "Google error" }, { status: 502 });
+    const errText = await res.text();
+    console.error("Google Places error:", res.status, errText);
+    return NextResponse.json({ error: errText }, { status: 502 });
+    // return NextResponse.json({ error: "Google error" }, { status: 502 });
   }
 
   const d = await res.json();

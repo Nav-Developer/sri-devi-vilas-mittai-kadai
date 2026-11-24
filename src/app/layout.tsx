@@ -17,9 +17,10 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 });
 
-export const metadata: Metadata = {
-  title: "Sri Devi Vilas Mittai Kadai",
-  description: "Where every dish is a performance.",
+export const metadata = {
+  title: "Sri Devi Vilas Mittai Kadai — Traditional Sweets Since 1962",
+  description:
+    "Sri Devi Vilas Mittai Kadai — traditional sweets since 1962. Mysore Pak, Laddu, Badusha, Jalebi, Paal Kova and more, made fresh daily.",
 };
 
 const tamil = Noto_Sans_Tamil({
@@ -35,6 +36,30 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bodoni.variable} ${montserrat.variable}`}>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Bakery",
+              name: "Sri Devi Vilas Mittai Kadai",
+              url: "https://www.sridevivilasmittaikadai.com",
+              telephone: "+91 6379765853",
+              openingHours: "Mo-Su 06:00-22:30",
+              foundingDate: "1962",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress:
+                  "No. 41, Road No. 18, Moondranthal (near Gandhi Statue), Bazaar Street",
+                addressLocality: "Periyakulam",
+                addressRegion: "Tamil Nadu",
+                postalCode: "625601",
+                addressCountry: "IN",
+              },
+            }),
+          }}
+        />
+
         <ThemeRegistry>
           <LanguageProvider>
             <HideOnStudio>
